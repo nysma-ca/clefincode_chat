@@ -1823,6 +1823,7 @@ def get_chat_docs(channel , remove_date = None):
 @frappe.whitelist()
 def get_file(file_id):
     file_doc = frappe.get_doc("File", {"name": file_id})
+    file_doc.check_permission("read")
     file_path = file_doc.get_full_path()
     audio_base64 = None
     with open(file_path, "rb") as in_file:
@@ -1843,6 +1844,7 @@ def calculate_voice_clip_duration(file_id, formatted = True):
 
     from pydub import AudioSegment 
     file_doc = frappe.get_doc("File", {"name": file_id})
+    file_doc.check_permission("read")
     file_path = file_doc.get_full_path()
 
     if not os.path.exists(file_path):
@@ -1859,6 +1861,7 @@ def calculate_voice_clip_duration(file_id, formatted = True):
 @frappe.whitelist()
 def get_file_view_size(file_id,is_video=None):
     file_doc = frappe.get_doc("File", {"name": file_id})
+    file_doc.check_permission("read")
     file_path = file_doc.get_full_path()
     file_base64 = None
     duration=None
